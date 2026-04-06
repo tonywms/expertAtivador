@@ -4,12 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WMS Expert - Portal de Licenciamento</title>
-    <!-- Seu ícone próprio -->
+    
+    <!-- Ícone -->
     <link rel="icon" type="image/png" href="/icon.png">
     <link rel="shortcut icon" type="image/png" href="/icon.png">
-    <link rel="apple-touch-icon" href="/icon.png">
-    <!-- Fallback para navegadores antigos -->
-    <link rel="icon" type="image/x-icon" href="/icon.png">
+    
     <style>
         * {
             margin: 0;
@@ -18,504 +17,380 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #0d1117;
+            color: #f0f6fc;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            padding: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            body {
+                padding: 3rem;
+            }
         }
 
         .container {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
-            max-width: 500px;
+            max-width: 32rem;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card {
             width: 100%;
-            animation: fadeIn 0.5s ease-in;
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 1.875rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .header p {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 700;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+            font-family: monospace;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 0.5rem;
+            color: #f0f6fc;
+            font-family: monospace;
+            transition: all 0.2s;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            ring: 2px solid #3b82f6;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+
+        .form-group input::placeholder {
+            color: #6b7280;
+        }
+
+        .info-box {
+            background-color: rgba(59, 130, 246, 0.05);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-box p {
+            font-size: 0.625rem;
+            color: #60a5fa;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        button {
+            width: 100%;
+            background-color: #2563eb;
+            color: white;
+            font-weight: 900;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.2);
+        }
+
+        button:hover:not(:disabled) {
+            background-color: #3b82f6;
+            transform: scale(0.98);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .result {
+            margin-top: 2.5rem;
+            padding: 1.5rem;
+            background-color: rgba(59, 130, 246, 0.05);
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            border-radius: 0.75rem;
+            animation: fadeIn 0.3s ease-out;
         }
 
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(-20px);
+                transform: scale(0.95);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: scale(1);
             }
         }
 
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
+        .result-label {
+            font-size: 0.625rem;
+            color: #60a5fa;
+            text-transform: uppercase;
+            font-weight: 900;
             text-align: center;
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.1em;
         }
 
-        .header h1 {
-            font-size: 24px;
-            margin-bottom: 5px;
-        }
-
-        .header p {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-
-        .content {
-            padding: 30px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .label-example {
-            font-size: 12px;
-            color: #666;
-            font-weight: normal;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: all 0.3s;
-            font-family: monospace;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        input.error {
-            border-color: #f44336;
-            background-color: #ffebee;
-        }
-
-        .error-message {
-            color: #f44336;
-            font-size: 12px;
-            margin-top: 5px;
-            display: none;
-        }
-
-        .error-message.show {
-            display: block;
-        }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .result {
-            margin-top: 25px;
-            padding: 20px;
-            background: #f5f5f5;
-            border-radius: 8px;
-            display: none;
-            animation: slideDown 0.3s ease-out;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .result.show {
-            display: block;
-        }
-
-        .result.success {
-            background: #e8f5e9;
-            border-left: 4px solid #4caf50;
-        }
-
-        .result.error {
-            background: #ffebee;
-            border-left: 4px solid #f44336;
-        }
-
-        .result h3 {
-            margin-bottom: 10px;
-            font-size: 16px;
-        }
-
-        .chave-container {
-            background: white;
-            padding: 12px;
-            border-radius: 5px;
-            margin: 10px 0;
-            word-break: break-all;
-            font-family: monospace;
-            font-size: 14px;
-            border: 1px solid #ddd;
+        .chave-box {
+            background-color: #0d1117;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid #30363d;
             position: relative;
         }
 
-        .copy-btn {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: #667eea;
+        .chave-text {
+            font-size: 1.25rem;
+            font-family: monospace;
+            text-align: center;
             color: white;
+            word-break: break-all;
+            font-weight: 700;
+            user-select: all;
+        }
+
+        .copy-btn {
+            width: 100%;
+            background: none;
             border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
+            color: #6b7280;
+            font-size: 0.6875rem;
+            text-transform: uppercase;
+            font-weight: 700;
             cursor: pointer;
-            font-size: 12px;
-            width: auto;
+            margin-top: 1rem;
+            padding: 0.5rem;
+            box-shadow: none;
         }
 
         .copy-btn:hover {
-            background: #5a67d8;
+            color: white;
             transform: none;
+            background: none;
         }
 
-        .footer {
-            background: #f8f9fa;
-            padding: 15px;
+        footer {
+            margin-top: 2rem;
+            color: #4b5563;
+            font-size: 0.625rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
             text-align: center;
-            font-size: 11px;
-            color: #666;
-            border-top: 1px solid #e0e0e0;
         }
 
-        .loading {
+        .spinner {
             display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,.3);
             border-radius: 50%;
             border-top-color: white;
             animation: spin 0.8s linear infinite;
-            margin-right: 10px;
+            margin-right: 8px;
             vertical-align: middle;
         }
 
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-
-        .info-text {
-            font-size: 12px;
-            color: #666;
-            margin-top: 5px;
-        }
-
-        .badge {
-            display: inline-block;
-            background: #4caf50;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 10px;
-            margin-left: 8px;
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>🚀 WMS Expert</h1>
-            <p>Portal Interno de Licenciamento</p>
-        </div>
+        <div class="card">
+            <div class="header">
+                <h1>WMS Expert</h1>
+                <p>Portal Interno de Licenciamento</p>
+            </div>
 
-        <div class="content">
-            <div class="form-group">
-                <label>
-                    🔑 CÓDIGO DE ATIVAÇÃO (HWID)
-                    <span class="label-example">- Ex: ABC-123DEF</span>
-                </label>
-                <input 
-                    type="text" 
-                    id="hwid" 
-                    placeholder="Ex: ABC-123DEF ou WJMLMDVW-XXXX"
-                    autocomplete="off"
-                >
-                <div class="error-message" id="hwid-error">
-                    ❌ HWID inválido! Deve conter hífen e no mínimo 9 caracteres.
+            <form id="formGerador">
+                <div class="form-group">
+                    <label>Código de Ativação</label>
+                    <input 
+                        type="text" 
+                        id="hwid"
+                        placeholder="Ex: WJMLMDVW-XXXX-XXXX"
+                        required
+                        autocomplete="off"
+                    >
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label>
-                    📅 DATA DE VALIDADE
-                    <span class="label-example">- Formato: DD/MM/AAAA</span>
-                </label>
-                <input 
-                    type="text" 
-                    id="validade" 
-                    placeholder="Ex: 25/12/2025"
-                    autocomplete="off"
-                >
-                <div class="error-message" id="validade-error">
-                    ❌ Data inválida! Use o formato DD/MM/AAAA.
+                <div class="form-group">
+                    <label>CNPJ Cliente (Opcional)</label>
+                    <input 
+                        type="text" 
+                        id="cnpj"
+                        placeholder="00.000.000/0001-00"
+                        autocomplete="off"
+                    >
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label>
-                    🏢 CNPJ CLIENTE (OPCIONAL)
-                    <span class="label-example">- Não utilizado na geração</span>
-                </label>
-                <input 
-                    type="text" 
-                    id="cnpj" 
-                    placeholder="00.000.000/0001-00"
-                    autocomplete="off"
-                >
-                <div class="info-text">ℹ️ Campo apenas para registro, não interfere na chave</div>
-            </div>
+                <div class="info-box">
+                    <p>WMS Expert agrade a preferência.</p>
+                </div>
 
-            <button id="gerarBtn" onclick="gerarChave()">
-                ✨ GERAR CHAVE DE ACESSO
-            </button>
+                <button type="submit" id="btnGerar">
+                    Gerar Chave de Acesso
+                </button>
+            </form>
 
-            <div id="resultado" class="result"></div>
+            <div id="resultado" style="display: none;"></div>
         </div>
 
-        <div class="footer">
-            <strong>WMS EXPERT</strong> AGRADECE A PREFERÊNCIA.<br>
-            USO RESTRITO - WMS EXPERT SUPPORT TEAM
-        </div>
+        <footer>
+            Uso Restrito - WMS Expert Support Team
+        </footer>
     </div>
 
     <script>
         // Máscara para CNPJ
         document.getElementById('cnpj').addEventListener('input', function(e) {
             let value = e.target.value.replace(/\D/g, '');
-            if (value.length <= 14) {
-                value = value.replace(/^(\d{2})(\d)/, '$1.$2');
-                value = value.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
-                value = value.replace(/\.(\d{3})(\d)/, '.$1/$2');
-                value = value.replace(/(\d{4})(\d)/, '$1-$2');
-                e.target.value = value;
-            }
-        });
-
-        // Máscara para data
-        document.getElementById('validade').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length >= 2) {
-                value = value.substring(0, 2) + '/' + value.substring(2);
-            }
-            if (value.length >= 5) {
-                value = value.substring(0, 5) + '/' + value.substring(5, 9);
-            }
+            if (value.length > 14) value = value.slice(0, 14);
+            if (value.length >= 2) value = value.replace(/^(\d{2})(\d)/, '$1.$2');
+            if (value.length >= 6) value = value.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+            if (value.length >= 10) value = value.replace(/\.(\d{3})(\d)/, '.$1/$2');
+            if (value.length >= 15) value = value.replace(/(\d{4})(\d)/, '$1-$2');
             e.target.value = value;
         });
 
-        // Validar HWID
-        function validarHWID(hwid) {
-            if (!hwid || hwid.trim().length < 9) return false;
-            if (!hwid.includes('-')) return false;
-            return true;
+        // Converter para maiúsculas no HWID
+        document.getElementById('hwid').addEventListener('input', function(e) {
+            e.target.value = e.target.value.toUpperCase().trim();
+        });
+
+        // Formatar data para DD/MM/AAAA (data atual + 60 dias)
+        function getDataExpiracao() {
+            const data = new Date();
+            data.setDate(data.getDate() + 60);
+            const dia = String(data.getDate()).padStart(2, '0');
+            const mes = String(data.getMonth() + 1).padStart(2, '0');
+            const ano = data.getFullYear();
+            return `${dia}/${mes}/${ano}`;
         }
 
-        // Validar Data
-        function validarData(data) {
-            const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
-            if (!regex.test(data)) return false;
-            
-            const dia = parseInt(RegExp.$1);
-            const mes = parseInt(RegExp.$2);
-            const ano = parseInt(RegExp.$3);
-            
-            const dataObj = new Date(ano, mes - 1, dia);
-            if (dataObj.getFullYear() !== ano || dataObj.getMonth() !== mes - 1 || dataObj.getDate() !== dia) {
-                return false;
-            }
-            
-            // Verificar se não é data passada
-            const hoje = new Date();
-            hoje.setHours(0, 0, 0, 0);
-            if (dataObj < hoje) {
-                return false;
-            }
-            
-            return true;
+        // Função para gerar chave
+        async function gerarChave(hwid, cnpj) {
+            const validade = getDataExpiracao();
+            const params = new URLSearchParams({
+                hwid: hwid,
+                validade: validade,
+                cnpj: cnpj || ''
+            });
+
+            const response = await fetch(`/api/gerar?${params.toString()}`);
+            const data = await response.json();
+            return data;
         }
 
-        // Limpar erros
-        function limparErros() {
-            document.getElementById('hwid').classList.remove('error');
-            document.getElementById('validade').classList.remove('error');
-            document.getElementById('hwid-error').classList.remove('show');
-            document.getElementById('validade-error').classList.remove('show');
-        }
-
-        // Mostrar erro específico
-        function mostrarErro(campo, mensagem) {
-            const input = document.getElementById(campo);
-            const errorDiv = document.getElementById(`${campo}-error`);
-            input.classList.add('error');
-            errorDiv.textContent = mensagem;
-            errorDiv.classList.add('show');
-        }
-
-        // Função principal para gerar chave
-        async function gerarChave() {
-            const hwid = document.getElementById('hwid').value.trim();
-            const validade = document.getElementById('validade').value.trim();
-            const cnpj = document.getElementById('cnpj').value.trim();
-            const btn = document.getElementById('gerarBtn');
+        // Form submit
+        document.getElementById('formGerador').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const hwid = document.getElementById('hwid').value;
+            const cnpj = document.getElementById('cnpj').value;
+            const btn = document.getElementById('btnGerar');
             const resultadoDiv = document.getElementById('resultado');
-
-            // Limpar erros e resultado anterior
-            limparErros();
-            resultadoDiv.classList.remove('show');
-            resultadoDiv.className = 'result';
-
-            let isValid = true;
-
-            // Validar HWID
-            if (!validarHWID(hwid)) {
-                mostrarErro('hwid', '❌ HWID inválido! Deve conter hífen e no mínimo 9 caracteres. Ex: ABC-123DEF');
-                isValid = false;
+            
+            // Validação básica
+            if (!hwid || hwid.length < 9) {
+                alert('HWID inválido! Deve conter no mínimo 9 caracteres e hífen.');
+                return;
             }
 
-            // Validar Data
-            if (!validarData(validade)) {
-                mostrarErro('validade', '❌ Data inválida! Use o formato DD/MM/AAAA e uma data futura.');
-                isValid = false;
+            if (!hwid.includes('-')) {
+                alert('HWID inválido! Deve conter um hífen (-). Ex: WJMLMDVW-XXXX');
+                return;
             }
-
-            if (!isValid) return;
 
             // Mostrar loading
             btn.disabled = true;
-            btn.innerHTML = '<span class="loading"></span> GERANDO CHAVE...';
+            btn.innerHTML = '<span class="spinner"></span>Gerando...';
+            resultadoDiv.style.display = 'none';
 
             try {
-                // Chamar a API
-                const response = await fetch(`/api/gerar?hwid=${encodeURIComponent(hwid)}&validade=${encodeURIComponent(validade)}`);
-                const data = await response.json();
-
-                if (data.sucesso) {
-                    // Sucesso
-                    resultadoDiv.className = 'result success show';
+                const data = await gerarChave(hwid, cnpj);
+                
+                if (data.sucesso && data.chave_gerada) {
+                    // Mostrar chave gerada
                     resultadoDiv.innerHTML = `
-                        <h3>✅ CHAVE GERADA COM SUCESSO!</h3>
-                        <div style="margin: 15px 0;">
-                            <strong>🔑 Chave de Ativação:</strong>
-                            <div class="chave-container">
-                                <code style="font-size: 16px; font-weight: bold;">${data.chave_gerada}</code>
-                                <button class="copy-btn" onclick="copiarChave('${data.chave_gerada}')">📋 Copiar</button>
+                        <div class="result">
+                            <div class="result-label">Chave de Registro</div>
+                            <div class="chave-box">
+                                <div class="chave-text">${data.chave_gerada}</div>
                             </div>
-                        </div>
-                        <div style="font-size: 13px; color: #555;">
-                            <strong>📌 HWID:</strong> ${data.hwid_origem}<br>
-                            <strong>⏰ Expira em:</strong> ${data.expira_em}<br>
-                            ${cnpj ? `<strong>🏢 CNPJ:</strong> ${cnpj}<br>` : ''}
-                            <strong>🔒 Tipo:</strong> Licença Temporária
-                        </div>
-                        <div style="margin-top: 15px; padding: 10px; background: #c8e6c9; border-radius: 5px; font-size: 12px;">
-                            💡 Instruções: Copie a chave acima e cole no sistema WMS Expert para ativação.
+                            <button class="copy-btn" onclick="copiarChave('${data.chave_gerada}')">
+                                Clique aqui para copiar a chave
+                            </button>
                         </div>
                     `;
+                    resultadoDiv.style.display = 'block';
                 } else {
-                    // Erro da API
-                    resultadoDiv.className = 'result error show';
-                    resultadoDiv.innerHTML = `
-                        <h3>❌ ERRO AO GERAR CHAVE</h3>
-                        <p>${data.error || 'Ocorreu um erro inesperado. Tente novamente.'}</p>
-                        <div style="margin-top: 10px; font-size: 12px;">
-                            <strong>Possíveis causas:</strong><br>
-                            • HWID inválido ou mal formatado<br>
-                            • Data de validade incorreta<br>
-                            • API temporariamente indisponível
-                        </div>
-                    `;
+                    alert(data.error || 'Erro ao gerar chave. Verifique o HWID.');
                 }
-            } catch (error) {
-                // Erro de rede
-                resultadoDiv.className = 'result error show';
-                resultadoDiv.innerHTML = `
-                    <h3>❌ ERRO DE CONEXÃO</h3>
-                    <p>Não foi possível conectar à API. Verifique sua internet ou tente novamente mais tarde.</p>
-                    <div style="margin-top: 10px; font-size: 12px;">
-                        <strong>Detalhe técnico:</strong> ${error.message}
-                    </div>
-                `;
+            } catch (err) {
+                alert('Erro ao conectar com o servidor de chaves.');
+                console.error(err);
             } finally {
-                // Restaurar botão
                 btn.disabled = false;
-                btn.innerHTML = '✨ GERAR CHAVE DE ACESSO';
+                btn.innerHTML = 'Gerar Chave de Acesso';
             }
-        }
+        });
 
         // Função para copiar chave
         function copiarChave(chave) {
             navigator.clipboard.writeText(chave).then(() => {
-                // Feedback visual
-                const btns = document.querySelectorAll('.copy-btn');
-                btns.forEach(btn => {
-                    const originalText = btn.innerHTML;
-                    btn.innerHTML = '✅ Copiado!';
-                    setTimeout(() => {
-                        btn.innerHTML = originalText;
-                    }, 2000);
-                });
-            }).catch(err => {
-                alert('Erro ao copiar: ' + err);
+                alert('Chave copiada com sucesso!');
+            }).catch(() => {
+                alert('Erro ao copiar. Selecione manualmente.');
             });
         }
-
-        // Permitir gerar com Enter
-        document.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                const hwid = document.getElementById('hwid');
-                const validade = document.getElementById('validade');
-                if (document.activeElement === hwid || document.activeElement === validade) {
-                    gerarChave();
-                }
-            }
-        });
     </script>
 </body>
 </html>
