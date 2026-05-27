@@ -20,17 +20,34 @@ const traduzirBloco2 = (char) => {
 };
 
 /**
- * Bloco 3: Gerador de Prefixo Dinâmico + Sufixo de Ano
+ * Bloco 3: Gerador de Prefixo Dinâmico + Sufixo de Ano (CORRIGIDO)
  */
 const gerarBloco3Dinamico = (dataValidade) => {
-    const prefixo = "FICDICFDF"; 
+    // Prefixo base correto do sistema original
+    const prefixo = "FKCDLCFDF";
     
     try {
-        const ano = parseInt(dataValidade.split("/")[2]);
-        const charAno = String.fromCharCode(74 + (ano - 2026));
+        if (!dataValidade || !dataValidade.includes('/')) {
+            return (prefixo + "J").toUpperCase();
+        }
+        
+        const partes = dataValidade.split("/");
+        const ano = parseInt(partes[2]);
+        
+        // Calcular caractere do ano (a partir de 2026)
+        // 2026 = J (74), 2027 = K (75), 2028 = L (76), etc.
+        let charCode = 74 + (ano - 2026);
+        
+        // Garantir que está dentro do range de letras maiúsculas
+        if (charCode < 65) charCode = 65; // A
+        if (charCode > 90) charCode = 90; // Z
+        
+        const charAno = String.fromCharCode(charCode);
         return (prefixo + charAno).toUpperCase();
+        
     } catch (e) {
-        return (prefixo + "J").toUpperCase(); 
+        console.error("Erro ao gerar Bloco 3:", e);
+        return (prefixo + "J").toUpperCase();
     }
 };
 
@@ -58,7 +75,7 @@ const gerarChaveFinal = (hwid, dataValidade) => {
         // --- BLOCO 2: DINÂMICO (Tradução via Tabela ou Shift +10) ---
         const b2 = partes[1].replace(/[a-z]/g, c => traduzirBloco2(c));
 
-        // --- BLOCO 3: DINÂMICO (Base do Sistema + Variável de Ano) ---
+        // --- BLOCO 3: DINÂMICO (Base do Sistema + Variável de Ano) - CORRIGIDO ---
         const b3 = gerarBloco3Dinamico(dataValidade);
 
         // --- BLOCO 4: ASSINATURA DO SISTEMA ---
