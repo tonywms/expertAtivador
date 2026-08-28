@@ -1,4 +1,4 @@
-// utils/keygen.js
+// utils/keygen.js - VERSÃO CORRIGIDA (TUDO MINÚSCULO)
 
 /**
  * Bloco 2: Tradução Dinâmica
@@ -63,12 +63,13 @@ const gerarChaveFinal = (hwid, dataValidade) => {
             return "ERRO_FORMATO";
         }
 
-        // BLOCO 1: Recuo de 2 posições (MAIÚSCULO)
+        // BLOCO 1: Recuo de 2 posições (MINÚSCULO)
         const b1 = partes[0].replace(/[a-z]/g, c => 
             String.fromCharCode(((c.charCodeAt(0) - 97 - 2 + 26) % 26) + 97)
-        ).toUpperCase();
+        );
+        // NÃO CONVERTE b1 PARA MAIÚSCULO - mantém minúsculo!
 
-        // BLOCO 2: Tradução (MANTÉM MINÚSCULO)
+        // BLOCO 2: Tradução (MINÚSCULO)
         const primeiroChar = partes[1][0] || '';
         const isTraduzido = ['m','p','q','u','s','t','n','l'].includes(primeiroChar);
         
@@ -86,7 +87,7 @@ const gerarChaveFinal = (hwid, dataValidade) => {
         // BLOCO 4: Assinatura (MAIÚSCULO)
         const b4 = "EFFEGHIHEFGGFE";
 
-        // RESULTADO: Bloco1 MAIÚSCULO - Bloco2 MINÚSCULO - Bloco3 MAIÚSCULO - Bloco4 MAIÚSCULO
+        // RESULTADO: Bloco1 MINÚSCULO - Bloco2 MINÚSCULO - Bloco3 MAIÚSCULO - Bloco4 MAIÚSCULO
         const resultado = `${b1}-${b2}-${b3}-${b4}`;
         
         console.log(`[KEYGEN] Sucesso! In: ${hwid} -> Out: ${resultado}`);
