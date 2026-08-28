@@ -60,6 +60,16 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .header h1 img {
+            width: 48px;
+            height: 48px;
+            vertical-align: middle;
         }
 
         .header p {
@@ -245,8 +255,8 @@
     <div class="container">
         <div class="card">
             <div class="header">
-                <h1 style="display: flex; align-items: center; justify-content: center; gap: 12px;">
-                    <img src="/icon.png" alt="WMS Expert" style="width: 32px; height: 32px; vertical-align: middle;">
+                <h1>
+                    <img src="/icon.png" alt="WMS Expert Icon" style="width: 48px; height: 48px; vertical-align: middle;">
                     WMS Expert
                 </h1>
                 <p>Portal Interno de Licenciamento</p>
@@ -258,7 +268,7 @@
                     <input 
                         type="text" 
                         id="hwid"
-                        placeholder="Ex: WJMLMDVW-XXXX-XXXX"
+                        placeholder="Ex: ZHZFHLVY-cfgkcijdbbbckg"
                         required
                         autocomplete="off"
                     >
@@ -275,7 +285,7 @@
                 </div>
 
                 <div class="info-box">
-                    <p>WMS Expert agrade a preferência.</p>
+                    <p>WMS Expert agradece a preferência.</p>
                 </div>
 
                 <button type="submit" id="btnGerar">
@@ -348,7 +358,7 @@
             }
 
             if (!hwid.includes('-')) {
-                alert('HWID inválido! Deve conter um hífen (-). Ex: WJMLMDVW-XXXX');
+                alert('HWID inválido! Deve conter um hífen (-). Ex: ZHZFHLVY-cfgkcijdbbbckg');
                 return;
             }
 
@@ -369,11 +379,14 @@
                                 <div class="chave-text">${data.chave_gerada}</div>
                             </div>
                             <button class="copy-btn" onclick="copiarChave('${data.chave_gerada}')">
-                                Clique aqui para copiar a chave
+                                📋 Clique aqui para copiar a chave
                             </button>
                         </div>
                     `;
                     resultadoDiv.style.display = 'block';
+                    
+                    // Scroll para o resultado
+                    resultadoDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 } else {
                     alert(data.error || 'Erro ao gerar chave. Verifique o HWID.');
                 }
@@ -389,9 +402,20 @@
         // Função para copiar chave
         function copiarChave(chave) {
             navigator.clipboard.writeText(chave).then(() => {
-                alert('Chave copiada com sucesso!');
+                alert('✅ Chave copiada com sucesso!');
             }).catch(() => {
-                alert('Erro ao copiar. Selecione manualmente.');
+                // Fallback para navegadores mais antigos
+                const textarea = document.createElement('textarea');
+                textarea.value = chave;
+                document.body.appendChild(textarea);
+                textarea.select();
+                try {
+                    document.execCommand('copy');
+                    alert('✅ Chave copiada com sucesso!');
+                } catch (err) {
+                    alert('❌ Erro ao copiar. Selecione manualmente.');
+                }
+                document.body.removeChild(textarea);
             });
         }
     </script>

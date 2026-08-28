@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
         return res.status(200).end();
     }
 
-    const { hwid, validade } = req.query;
+    const { hwid, validade, cnpj } = req.query;
 
     // Validações mais amigáveis
     if (!hwid || !validade) {
@@ -40,13 +40,20 @@ module.exports = async (req, res) => {
             });
         }
         
-        return res.status(200).json({ 
+        const response = { 
             sucesso: true,
             chave_gerada: chave,
             hwid_origem: hwid,
             expira_em: validade,
             mensagem: 'Chave gerada com sucesso!'
-        });
+        };
+
+        // Adiciona CNPJ se fornecido
+        if (cnpj) {
+            response.cnpj_cliente = cnpj;
+        }
+        
+        return res.status(200).json(response);
     } catch (error) {
         return res.status(500).json({ 
             sucesso: false,
